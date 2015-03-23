@@ -6,6 +6,16 @@ The most common word used to describe computer programming in architecture schoo
 
 What does scripting mean, in architecture, in programming, in the public imagination?
 
+Scripting occurs when a "user" utilizes some sort of computer code (thereby reconfiguring roles?)
+
+"design computing"
+
+computer as assistant vs. computer as design agent.
+
+"soft" constraint-based (Prolog) visual programming environment.
+
+
+
 
 
 Scripting language
