@@ -9,48 +9,112 @@
 <script type="text/javascript">
 
 
+
 var x = 120;
 var y = 90
 var r = 80;
 
-var xdir = -1
-var ydir = -1
+var xdir = -1;
+var ydir = -1;
+var speed = 5;
 
 var width = 720;
 var height = 400;
 
+
+var pickRandomPoint = function(width, height){
+    var w = Math.random() * width;
+    var h = Math.random() * height;
+    return [w, h];
+}
+
+var p1 = pickRandomPoint(width, height)
+
 function setup() {
-  // Sets the screen to be 640 pixels wide and 360 pixels high
-  createCanvas(720, 400);
+    createCanvas(720, 400);
+    frameRate(30);
+    colorMode(RGB, 255, 255, 255, 100);
+    
+    stroke(129);
+    fill(100);
+
 
 
 }
 
 function draw() {
-  x += xdir;
-  y += ydir;
+    background(255);
 
-  if (x-r < 0){
-     xdir *= -1;
-  }
+    x += xdir * speed;
+    y += ydir * speed;
 
-  if (x+r > width){
-     xdir *= -1;
-  }
+    if (x-r < 0){
+	xdir *= -1;
+    }
+    
+    if (x+r > width){
+	xdir *= -1;
+    }
+    
+    if (y-r < 0){
+	ydir *= -1;
+    }
+    
+    if (y+r > height){
+	ydir *= -1;
+    }
+    
+    var t = ellipse(x, y, r, r);
 
+    c.draw();
 
-  if (y-r < 0){
-     ydir *= -1;
-	    }
+    var p2 = pickRandomPoint(width,height);
+    var l = new Line(p1, p2);
+    lines.push(l);
+    p1 = p2;
 
-  if (y+r > height){
-     ydir *= -1;
-	    }
+    var sk = 255;
+
+    for (var i=0; i < lines.length; i++){
+	stroke(sk);
+	sk -= 1;
+	lines[i].draw();
+    }
 
     
-
-  var t = ellipse(x, y, r, r);
 }
+
+
+var Form = function(attrs){
+    this.attrs = attrs;
+    }
+
+// Forms
+
+var Circle = function(position, radius){
+    this.position = position
+    this.radius = radius
+}
+
+Circle.prototype.draw = function(){
+    ellipse(this.position[0], this.position[1], this.radius, this.radius);
+}
+
+
+
+var Line = function(start, end){
+    this.start = start;
+    this.end = end;
+}
+
+Line.prototype.draw = function(){
+    line(this.start[0],this.start[1],this.end[0],this.end[1])
+    }
+
+var c = new Circle([200,300], 50);
+var lines = [new Line([100,400],[700,200])];
+
+
 </script>
 
 
