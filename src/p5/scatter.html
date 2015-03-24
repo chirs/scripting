@@ -19,25 +19,26 @@ var setup = function(){
     frameRate(30);
     colorMode(RGB, 255, 255, 255, 100);
     
-    stroke(200);
-    fill(100);
+    stroke(255);
+    fill(50);
     background(50);
 }
 
 var draw = function(){
     //background(200);
-    b.draw();
-    b.draw();
-    b.draw();
+    //b.draw();
+    //b.draw();
+    //b.draw();
     bc.draw();
     
     
 }
 
 
-var ScatterBox = function(p1, p2){
+var ScatterBox = function(p1, p2, children){
     this.p1 = p1;
     this.p2 = p2;
+    this.children = children;
 }
 
 ScatterBox.prototype.randomPoint = function(){
@@ -71,25 +72,17 @@ ScatterBoxCollection.prototype.draw = function(){
     el.draw();
 }
 
-var b = new ScatterBox([100,100], [150,150]);
-var b2 = new ScatterBox([200,200], [250,250]);
+var b = new ScatterBox([100,100], [150,150], []);
+var b2 = new ScatterBox([200,200], [250,250], []);
+var b3 = new ScatterBox([50,50], [250,25], []);
 
-var bc = new ScatterBoxCollection([b,b2])
-
-
+var bc = new ScatterBoxCollection([b,b2,b3])
 </script>
-
 
 </head>
 
 <body>
-
-</body>
-
-
 <canvas></canvas>
-
-
-
+</body>
 
 </html>

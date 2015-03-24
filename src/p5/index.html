@@ -8,8 +8,6 @@
 
 <script type="text/javascript">
 
-
-
 var x = 120;
 var y = 90
 var r = 80;
@@ -57,6 +55,8 @@ var draw = function(){
 	}
 
 
+    /*
+
     if (lines.length > 128){
 	lines.shift();
 	};
@@ -73,6 +73,7 @@ var draw = function(){
 	sk -= 1;
 	lines[i].draw();
     }
+    */
 
     
 }
@@ -135,7 +136,17 @@ Circle.prototype.move = function(){
 	this.direction += Math.PI;
     }
 
+}
+
+var Line = function(start, end){
+    this.start = start;
+    this.end = end;
+}
+
+Line.prototype.draw = function(){
+    line(this.start[0],this.start[1],this.end[0],this.end[1])
     }
+
 
 // Behaviors
 
@@ -155,15 +166,13 @@ var AvoidOverlapping = function(isOverlapping, direction){
 }
 
 
-var Line = function(start, end){
-    this.start = start;
-    this.end = end;
-}
+// Visualizations
 
-Line.prototype.draw = function(){
-    line(this.start[0],this.start[1],this.end[0],this.end[1])
-    }
+var visualize = function(){
+};
 
+
+// Boilerplate
 
 var circles = []
 
@@ -171,8 +180,8 @@ for (var i=0; i<20; i++){
     circles.push(new Circle(pickRandomPoint(width,height), Math.random() * 150, Math.random() * 10));
 }
 
-var c = new Circle([200,300], 50, 5);
-var lines = [new Line([100,400],[700,200])];
+//var c = new Circle([200,300], 50, 5);
+//var lines = [new Line([100,400],[700,200])];
 
 
 </script>
