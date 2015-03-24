@@ -18,8 +18,8 @@ var xdir = -1;
 var ydir = -1;
 var speed = 5;
 
-var width = 720;
-var height = 400;
+var width = 500;
+var height = 500;
 
 
 var pickRandomPoint = function(width, height){
@@ -28,22 +28,28 @@ var pickRandomPoint = function(width, height){
     return [w, h];
 }
 
+var randomDirection = function(){
+    return Math.random() * 2 * Math.PI;
+    }
+
 var p1 = pickRandomPoint(width, height)
 
-function setup() {
-    createCanvas(720, 400);
+var perturb = function(x, amount){
+    d = amount / 2;
+    return x + random(amount) - d;
+}
+
+var setup = function(){
+    createCanvas(500, 500);
     frameRate(30);
     colorMode(RGB, 255, 255, 255, 100);
     
     stroke(129);
     fill(100);
-
-
-
 }
 
-function draw() {
-    background(255);
+var draw = function(){
+    background(15);
 
     x += xdir * speed;
     y += ydir * speed;
@@ -64,39 +70,87 @@ function draw() {
 	ydir *= -1;
     }
     
-    var t = ellipse(x, y, r, r);
+    //var t = ellipse(x, y, r, r);
 
-    c.draw();
+    //c.draw();
+    //c.move();
 
-    if (lines.length > 128){
-	lines.shift();
-	};
-    var p2 = pickRandomPoint(width,height);
-    var l = new Line(p1, p2);
-    lines.push(l);
-    p1 = p2;
+    //stroke(255);
+
+    for (var i=0; i < circles.length; i++){
+	circles[i].draw();
+	circles[i].move();
+	}
+
+
+    //if (lines.length > 128){
+	//lines.shift();
+	//};
+    //var p2 = pickRandomPoint(width,height);
+    //var l = new Line(p1, p2);
+    //lines.push(l);
+    //p1 = p2;
 
     var sk = 255;
 
-    for (var i=0; i < lines.length; i++){
-	stroke(sk);
-	sk -= 2;
-	lines[i].draw();
-    }
+    //for (var i=0; i < lines.length; i++){
+	//stroke(sk);
+	//sk -= 2;
+	//lines[i].draw();
+    //}
 
     
 }
 
 // Forms
 
-var Circle = function(position, radius){
-    this.position = position
-    this.radius = radius
+var Circle = function(position, radius, speed){
+    this.position = position;
+    this.radius = radius;
+    this.speed = speed;
+    this.direction = randomDirection();
+    this.stroke = Math.random() * 255;
+    this.fill = this.stroke + 20;
+    this.perturbation = .1
 }
 
 Circle.prototype.draw = function(){
+    //console.log(this.position);
+    stroke(this.stroke);
+    fill(this.fill);
     ellipse(this.position[0], this.position[1], this.radius, this.radius);
 }
+
+Circle.prototype.withinBounds = function(){
+    if (this.position[0] - this.radius < 0){
+	return false;
+    }
+
+    if (this.position[0] + this.radius > width){
+	return false;
+    }
+
+    if (this.position[1] - this.radius < 0){
+	return false;
+    }
+
+    if (this.position[1] + this.radius > height){
+	return false;
+    }
+    return true;
+}
+
+Circle.prototype.move = function(){
+    var x = Math.sin(this.direction) * this.speed;
+    var y = Math.cos(this.direction) * this.speed;
+    this.position = [this.position[0] + x, this.position[1] + y];
+    this.direction = perturb(this.direction, this.perturbation * this.speed);
+
+    if (!this.withinBounds()){
+	this.direction += Math.PI;
+    }
+
+    }
 
 // Behaviors
 
@@ -104,20 +158,16 @@ var straight = function(direction){
     return direction;
 }
 
-var constrainToSurface(p, bounds, direction){
+var constrainToSurface = function(p, bounds, direction){
     return direction;
     }
 
-var changeDirectionTouching(isTouching, direction){
+var changeDirectionTouching = function(isTouching, direction){
     return direciton;
 }
 
-var AvoidOverlapping(isOverlapping, direction){
+var AvoidOverlapping = function(isOverlapping, direction){
 }
-
-
-
-
 
 
 var Line = function(start, end){
@@ -129,7 +179,14 @@ Line.prototype.draw = function(){
     line(this.start[0],this.start[1],this.end[0],this.end[1])
     }
 
-var c = new Circle([200,300], 50);
+
+var circles = []
+
+for (var i=0; i<10; i++){
+    circles.push(new Circle(pickRandomPoint(width,height), 50, 5));
+}
+
+var c = new Circle([200,300], 50, 5);
 var lines = [new Line([100,400],[700,200])];
 
 
