@@ -68,6 +68,9 @@ function draw() {
 
     c.draw();
 
+    if (lines.length > 128){
+	lines.shift();
+	};
     var p2 = pickRandomPoint(width,height);
     var l = new Line(p1, p2);
     lines.push(l);
@@ -77,17 +80,12 @@ function draw() {
 
     for (var i=0; i < lines.length; i++){
 	stroke(sk);
-	sk -= 1;
+	sk -= 2;
 	lines[i].draw();
     }
 
     
 }
-
-
-var Form = function(attrs){
-    this.attrs = attrs;
-    }
 
 // Forms
 
@@ -99,6 +97,26 @@ var Circle = function(position, radius){
 Circle.prototype.draw = function(){
     ellipse(this.position[0], this.position[1], this.radius, this.radius);
 }
+
+// Behaviors
+
+var straight = function(direction){
+    return direction;
+}
+
+var constrainToSurface(p, bounds, direction){
+    return direction;
+    }
+
+var changeDirectionTouching(isTouching, direction){
+    return direciton;
+}
+
+var AvoidOverlapping(isOverlapping, direction){
+}
+
+
+
 
 
 
