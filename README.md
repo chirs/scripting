@@ -44,3 +44,7 @@ Languages such as Tcl and Lua were specifically designed as general purpose scri
 
 Some software incorporates several different scripting languages. Modern web browsers typically provide a language for writing extensions to the browser itself, and several standard embedded languages for controlling the browser, including JavaScript (a dialect of ECMAScript) or XUL."
 
+
+====
+
+Physical form, accorignto D'Arcy Thompson (1917), is the resolution at one instant of time of many forces that are governed by rates of change - Negroponte / Architecture machine.
