@@ -121,23 +121,23 @@ Circle.prototype.draw = function(){
     ellipse(this.position[0], this.position[1], this.radius, this.radius);
 }
 
-Circle.prototype.withinBounds = function(){
-    if (this.position[0] - this.radius < 0){
-	return false;
+Circle.prototype.wrongDirection = function(){
+    if (this.position[0] - this.radius < 0 && Math.sin(this.direction) < 0){
+	return true;
     }
 
-    if (this.position[0] + this.radius > width){
-	return false;
+    if (this.position[0] + this.radius > width && Math.sin(this.direction) > 0){
+	return true;
     }
 
-    if (this.position[1] - this.radius < 0){
-	return false;
+    if (this.position[1] - this.radius < 0 && Math.cos(this.direction) < 0){
+	return true;
     }
 
-    if (this.position[1] + this.radius > height){
-	return false;
+    if (this.position[1] + this.radius > height && Math.cos(this.direction) > 0){
+	return true;
     }
-    return true;
+    return false;
 }
 
 Circle.prototype.move = function(){
@@ -146,7 +146,7 @@ Circle.prototype.move = function(){
     this.position = [this.position[0] + x, this.position[1] + y];
     this.direction = perturb(this.direction, this.perturbation * this.speed);
 
-    if (!this.withinBounds()){
+    if (this.wrongDirection()){
 	this.direction += Math.PI;
     }
 
