@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>P5</title>
+
+<script type="text/javascript" charset="utf-8" src="p5/p5.js"></script>
+
+<script type="text/javascript">
+
+
+var x = 120;
+var y = 90
+var r = 80;
+
+var xdir = -1
+var ydir = -1
+
+var width = 720;
+var height = 400;
+
+function setup() {
+  // Sets the screen to be 640 pixels wide and 360 pixels high
+  createCanvas(720, 400);
+
+
+}
+
+function draw() {
+  x += xdir;
+  y += ydir;
+
+  if (x-r < 0){
+     xdir *= -1;
+  }
+
+  if (x+r > width){
+     xdir *= -1;
+  }
+
+
+  if (y-r < 0){
+     ydir *= -1;
+	    }
+
+  if (y+r > height){
+     ydir *= -1;
+	    }
+
+    
+
+  var t = ellipse(x, y, r, r);
+}
+</script>
+
+
+</head>
+
+<body>
+
+</body>
+
+
+<canvas></canvas>
+
+
+
+
+</html>
