@@ -1,11 +1,8 @@
-
 //MRect r1, r2, r3, r4;
-
- 
 
 void setup()
 {
-  size(200, 200);
+  size(800, 800);
   fill(255, 204);
   noStroke();
   r1 = new MRect(1, 134.0, 0.532, 0.083*height, 10.0, 60.0);
@@ -21,15 +18,20 @@ void draw()
 
   background(0);
 
-  r1.display();
+  //r1.display();
   r2.display();
-  r3.display();
-  r4.display();
+  //r3.display();
+  //r4.display();
 
-  r1.move(mouseX-(width/2), mouseY+(height*0.1), 30);
+  //r1.move(mouseX-(width/2), mouseY+(height*0.1), 30);
   r2.move((mouseX+(width*0.05))%width, mouseY+(height*0.025), 20);
-  r3.move(mouseX/4, mouseY-(height*0.025), 40);
-  r4.move(mouseX-(width/2), (height-mouseY), 50);
+  //r3.move(mouseX/4, mouseY-(height*0.025), 40);
+  //r4.move(mouseX-(width/2), (height-mouseY), 50);
+
+  //r2.move(2,5,-20);
+
+
+
 }
 
  
