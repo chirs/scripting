@@ -45,7 +45,7 @@ var setup = function(){
     colorMode(RGB, 255, 255, 255, 100);
     
     stroke(129);
-    fill(100);
+    fill(255);
 }
 
 var draw = function(){
@@ -66,11 +66,11 @@ var draw = function(){
     lines.push(l);
     p1 = p2;
 
-    var sk = 255;
+    var sk = 250;
 
     for (var i=0; i < lines.length; i++){
 	stroke(sk);
-	sk -= 2;
+	sk -= 1;
 	lines[i].draw();
     }
 
@@ -92,8 +92,18 @@ var Circle = function(position, radius, speed){
 Circle.prototype.draw = function(){
     //console.log(this.position);
     stroke(this.stroke);
-    fill(this.fill);
+    //fill(this.fill);
     ellipse(this.position[0], this.position[1], this.radius, this.radius);
+
+    stroke(this.stroke * 2);
+
+    // draw direction
+    line(this.position[0], 
+	 this.position[1], 
+	 this.position[0] + Math.sin(this.direction) * this.radius/2, 
+	 this.position[1] + Math.cos(this.direction) * this.radius/2)
+
+
 }
 
 Circle.prototype.wrongDirection = function(){
