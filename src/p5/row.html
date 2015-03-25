@@ -46,6 +46,12 @@ var width = 2000;
 var height = 2000;
 
 
+var pickPoint = function(end, start, proportion){
+    var x2 = start[0] + proportion * (start[0] - end[0]);    
+    var y2 = start[1] + proportion * (start[1] - end[1]);
+    return [x2, y2]
+}
+
 var pickRandomPoint = function(width, height){
     var w = Math.random() * width;
     var h = Math.random() * height;
@@ -149,6 +155,14 @@ Line.prototype.behave = function(){
     if (this.perturb > 5){
 	this.perturb -= Math.random();
 	}
+
+    if (Math.random() > .99){
+	var p2 = pickPoint(this.start, this.end, Math.random());
+	console.log(p2)
+	this.start = p2;
+    };
+
+    
 }
 
 
