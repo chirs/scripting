@@ -4,6 +4,10 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>edgemon.org</title>
 
+
+<link rel="stylesheet" href="style.css" type="text/css" media="screen" >
+
+
 <script type="text/javascript" charset="utf-8" src="p5/p5.js"></script>
 
 <script type="text/javascript">
@@ -49,10 +53,18 @@ var setup = function(){
 var draw = function(){
     //background(200);
 
+
+
     for (var i=0; i < circles.length; i++){
 	circles[i].draw();
 	circles[i].move();
+	circles[i].die();
 	}
+
+    if (Math.random() > .999){
+	circles.push(randomCircle());
+	}
+
 
 
     /*
@@ -138,6 +150,25 @@ Circle.prototype.move = function(){
 
 }
 
+
+
+Circle.prototype.die = function(){
+    if (circles.length == 1){
+	return;
+	}
+
+    if (Math.random() > .995){
+	console.log("dying");
+	var index = circles.indexOf(this);
+	if (index > -1) {
+	    circles.splice(index, 1);
+	}
+    }
+
+
+}
+
+
 var Line = function(start, end){
     this.start = start;
     this.end = end;
@@ -174,11 +205,19 @@ var visualize = function(){
 
 // Boilerplate
 
+var randomCircle = function(){
+    return new Circle(pickRandomPoint(width,height), Math.random() * 150, Math.random() * 10);
+}
+
+
 var circles = []
 
-for (var i=0; i<20; i++){
-    circles.push(new Circle(pickRandomPoint(width,height), Math.random() * 150, Math.random() * 10));
+//for (var i=0; i<20; i++){
+for (var i=0; i<2; i++){
+    circles.push(randomCircle());
 }
+
+
 
 //var c = new Circle([200,300], 50, 5);
 //var lines = [new Line([100,400],[700,200])];
