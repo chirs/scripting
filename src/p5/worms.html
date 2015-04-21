@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>edgemon.org</title>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" media="screen" >
+
+
+<script type="text/javascript" charset="utf-8" src="p5/p5.js"></script>
+
+<script type="text/javascript">
+
+var x = 120;
+var y = 90
+var r = 80;
+
+var xdir = -1;
+var ydir = -1;
+var speed = 5;
+
+var width = 2000;
+var height = 2000;
+
+
+var pickRandomPoint = function(width, height){
+    var w = Math.random() * width;
+    var h = Math.random() * height;
+    return [w, h];
+}
+
+var randomDirection = function(){
+    return Math.random() * 2 * Math.PI;
+    }
+
+var p1 = pickRandomPoint(width, height)
+
+var perturb = function(x, amount){
+    d = amount / 2;
+    return x + random(amount) - d;
+}
+
+var setup = function(){
+    createCanvas(2000, 2000);
+    frameRate(30);
+    colorMode(RGB, 255, 255, 255, 100);
+    
+    stroke(129);
+    fill(255);
+}
+
+var draw = function(){
+    //background(200);
+
+
+
+    for (var i=0; i < circles.length; i++){
+	circles[i].draw();
+	circles[i].move();
+	circles[i].die();
+	}
+
+    if (Math.random() > .999){
+	circles.push(randomCircle());
+	}
+
+
+
+    /*
+
+    if (lines.length > 128){
+	lines.shift();
+	};
+
+    var p2 = pickRandomPoint(width,height);
+    var l = new Line(p1, p2);
+    lines.push(l);
+    p1 = p2;
+
+    var sk = 250;
+
+    for (var i=0; i < lines.length; i++){
+	stroke(sk);
+	sk -= 1;
+	lines[i].draw();
+    }
+    */
+
+    
+}
+
+// Forms
+
+var Circle = function(position, radius, speed){
+    this.position = position;
+    this.radius = radius;
+    this.speed = speed;
+    this.direction = randomDirection();
+    this.stroke = Math.random() * 255;
+    this.fill = this.stroke + 20;
+    this.perturbation = .1
+}
+
+Circle.prototype.draw = function(){
+    //console.log(this.position);
+    stroke(this.stroke);
+    //fill(this.fill);
+    ellipse(this.position[0], this.position[1], this.radius, this.radius);
+
+    stroke(this.stroke * 2);
+
+    // draw direction
+    line(this.position[0], 
+	 this.position[1], 
+	 this.position[0] + Math.sin(this.direction) * this.radius/2, 
+	 this.position[1] + Math.cos(this.direction) * this.radius/2)
+
+
+}
+
+Circle.prototype.wrongDirection = function(){
+    if (this.position[0] - this.radius < 0 && Math.sin(this.direction) < 0){
+	return true;
+    }
+
+    if (this.position[0] + this.radius > width && Math.sin(this.direction) > 0){
+	return true;
+    }
+
+    if (this.position[1] - this.radius < 0 && Math.cos(this.direction) < 0){
+	return true;
+    }
+
+    if (this.position[1] + this.radius > height && Math.cos(this.direction) > 0){
+	return true;
+    }
+    return false;
+}
+
+Circle.prototype.move = function(){
+    var x = Math.sin(this.direction) * this.speed;
+    var y = Math.cos(this.direction) * this.speed;
+    this.position = [this.position[0] + x, this.position[1] + y];
+    this.direction = perturb(this.direction, this.perturbation * this.speed);
+
+    if (this.wrongDirection()){
+	this.direction += Math.PI;
+    }
+
+}
+
+
+
+Circle.prototype.die = function(){
+    if (circles.length == 1){
+	return;
+	}
+
+    if (Math.random() > .995){
+	console.log("dying");
+	var index = circles.indexOf(this);
+	if (index > -1) {
+	    circles.splice(index, 1);
+	}
+    }
+
+
+}
+
+
+var Line = function(start, end){
+    this.start = start;
+    this.end = end;
+}
+
+Line.prototype.draw = function(){
+    line(this.start[0],this.start[1],this.end[0],this.end[1])
+    }
+
+
+// Behaviors
+
+var straight = function(direction){
+    return direction;
+}
+
+var constrainToSurface = function(p, bounds, direction){
+    return direction;
+    }
+
+var changeDirectionTouching = function(isTouching, direction){
+    return direciton;
+}
+
+var AvoidOverlapping = function(isOverlapping, direction){
+}
+
+
+// Visualizations
+
+var visualize = function(){
+};
+
+
+// Boilerplate
+
+var randomCircle = function(){
+    return new Circle(pickRandomPoint(width,height), Math.random() * 150, Math.random() * 10);
+}
+
+
+var circles = []
+
+//for (var i=0; i<20; i++){
+for (var i=0; i<2; i++){
+    circles.push(randomCircle());
+}
+
+
+
+//var c = new Circle([200,300], 50, 5);
+//var lines = [new Line([100,400],[700,200])];
+
+
+</script>
+
+
+</head>
+
+<body>
+
+</body>
+
+
+<canvas></canvas>
+
+
+
+
+</html>
