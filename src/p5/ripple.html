@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>edgemon.org</title>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" media="screen" >
+
+
+<script type="text/javascript" charset="utf-8" src="p5/p5.js"></script>
+
+<script type="text/javascript">
+
+
+function makeArrayOf(value, length) {
+  var arr = [], i = length;
+  while (i--) {
+    arr[i] = value;
+  }
+  return arr;
+}
+
+var ripples = makeArrayOf(0, 100); 
+
+
+var setup = function(){
+    createCanvas(2000, 2000);
+    frameRate(30);
+    colorMode(RGB, 255, 255, 255, 100);
+    
+    stroke(255);
+    fill(0);
+
+}
+
+
+var draw = function(){
+
+    background(0);
+
+    if (Math.random() < .1){
+	drop();
+	}
+
+    
+    for (var i=ripples.length; i > 0; i--){
+	if (ripples[i] > .1) {
+	    strokeWeight(ripples[i] * 3);
+	    ellipse(1000, 1000, i*30, i*30);
+	    }
+	}
+
+    var previous = 0;    
+    
+    for (var i=0; i < ripples.length; i++){
+
+
+	var p = ripples[i]
+	ripples[i] = (ripples[i] + previous) / 2
+	previous = p;
+	ripples[i] = ripples[i] * .98;
+
+	}
+
+};
+
+var drop = function(){
+    console.log("dropping");
+    ripples[0] = Math.random() * 20;
+    }
+
+
+
+</script>
+
+
+</head>
+
+<body>
+
+</body>
+
+
+<canvas></canvas>
+
+
+
+
+</html>

@@ -4,13 +4,35 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>edgemon.org</title>
 
-
-<link rel="stylesheet" href="style.css" type="text/css" media="screen" >
-
-
 <script type="text/javascript" charset="utf-8" src="p5/p5.js"></script>
 
 <script type="text/javascript">
+
+/* total. */
+
+
+var setup = function(){
+    createCanvas(2000, 2000);
+    frameRate(30);
+    colorMode(RGB, 255, 255, 255, 100);
+    
+    stroke(129);
+    strokeWeight(5);
+    fill(255);
+
+}
+
+
+var draw = function(){
+    background(0);
+
+    for (var i=0; i<lines.length; i++){
+	lines[i].draw();
+	lines[i].behave();
+    }
+
+    
+}
 
 var x = 120;
 var y = 90
@@ -24,6 +46,12 @@ var width = 2000;
 var height = 2000;
 
 
+var pickPoint = function(end, start, proportion){
+    var x2 = start[0] + proportion * (start[0] - end[0]);    
+    var y2 = start[1] + proportion * (start[1] - end[1]);
+    return [x2, y2]
+}
+
 var pickRandomPoint = function(width, height){
     var w = Math.random() * width;
     var h = Math.random() * height;
@@ -36,59 +64,21 @@ var randomDirection = function(){
 
 var p1 = pickRandomPoint(width, height)
 
-var perturb = function(x, amount){
+var perturb = function(value, amount){
     d = amount / 2;
-    return x + random(amount) - d;
+    return value + random() * amount - d;
 }
 
-var setup = function(){
-    createCanvas(2000, 2000);
-    frameRate(30);
-    colorMode(RGB, 255, 255, 255, 100);
-    
-    stroke(129);
-    fill(255);
-}
+var perturbPoint = function(p, amount){
+    var p2 = [];
 
-var draw = function(){
-    //background(200);
-
-
-
-    for (var i=0; i < circles.length; i++){
-	circles[i].draw();
-	circles[i].move();
-	circles[i].die();
-	}
-
-    if (Math.random() > .999){
-	circles.push(randomCircle());
-	}
-
-
-
-    /*
-
-    if (lines.length > 128){
-	lines.shift();
+    for (var i=0; i<p.length; i++){
+	p2.push(perturb(p[i], amount));
 	};
-
-    var p2 = pickRandomPoint(width,height);
-    var l = new Line(p1, p2);
-    lines.push(l);
-    p1 = p2;
-
-    var sk = 250;
-
-    for (var i=0; i < lines.length; i++){
-	stroke(sk);
-	sk -= 1;
-	lines[i].draw();
-    }
-    */
-
-    
+    return p2;
 }
+
+
 
 // Forms
 
@@ -150,33 +140,30 @@ Circle.prototype.move = function(){
 
 }
 
-
-
-Circle.prototype.die = function(){
-    if (circles.length == 1){
-	return;
-	}
-
-    if (Math.random() > .995){
-	console.log("dying");
-	var index = circles.indexOf(this);
-	if (index > -1) {
-	    circles.splice(index, 1);
-	}
-    }
-
-
-}
-
-
-var Line = function(start, end){
+var Line = function(start, end, perturb){
     this.start = start;
     this.end = end;
+    this.perturb = perturb;
 }
 
 Line.prototype.draw = function(){
     line(this.start[0],this.start[1],this.end[0],this.end[1])
     }
+
+Line.prototype.behave = function(){
+    this.start = perturbPoint(this.start, this.perturb);
+    if (this.perturb > 5){
+	this.perturb -= Math.random();
+	}
+
+    if (Math.random() > .99){
+	var p2 = pickPoint(this.start, this.end, Math.random());
+	console.log(p2)
+	this.start = p2;
+    };
+
+    
+}
 
 
 // Behaviors
@@ -197,30 +184,19 @@ var AvoidOverlapping = function(isOverlapping, direction){
 }
 
 
-// Visualizations
+// Processes
 
-var visualize = function(){
-};
+
 
 
 // Boilerplate
 
-var randomCircle = function(){
-    return new Circle(pickRandomPoint(width,height), Math.random() * 150, Math.random() * 10);
+var lines = []
+
+for (var i=0; i<20; i++){
+    lines.push(new Line([i * 100, 100], [i * 100, 1600], Math.random() * 25))
 }
 
-
-var circles = []
-
-//for (var i=0; i<20; i++){
-for (var i=0; i<2; i++){
-    circles.push(randomCircle());
-}
-
-
-
-//var c = new Circle([200,300], 50, 5);
-//var lines = [new Line([100,400],[700,200])];
 
 
 </script>
