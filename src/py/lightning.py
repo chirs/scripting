@@ -14,6 +14,9 @@ points = [start]
 curve_list = []
 thicknesses = []
 
+degrees = 180
+
+
 def point_from_vector(start, direction, scale):
 	x, y = [scale * op(direction) for op in (math.sin, math.cos)]
 	return rs.PointAdd(start, rg.Point3d(x, y, 0))
@@ -28,8 +31,6 @@ def scale_vector(v, scale):
 
 def get_new_point(p):
 	radians = (2 * math.pi) * degrees / 360.0
-	print(degrees)
-	print(radians)
 	direction = random.uniform(-1/2.0 * radians, radians / 2.0)
 	np = point_from_vector(p, direction, stride)
 	return np
@@ -38,25 +39,24 @@ def get_new_point(p):
 
 
 def loop(steps, parent, thickness):
-	print("loop")
 	
 	if steps == 0:
 		return
 		
+	new_point = get_new_point(parent)
+		
+	c = rs.AddCurve([parent, new_point])
+	curve_list.append(c)
+	thicknesses.append(thickness)
+	points.append(new_point)
+		
+	print(split)
+	if random.random() < split:
+		print('hi')
+		t1, t2 = split_thickness(thickness)
+		loop(steps - 1, new_point, t1)
+		loop(steps - 1, rg.Point3d(new_point), t2)
 	else:
-		new_point = get_new_point(parent)
-		
-		c = rs.AddCurve([parent, new_point])
-		curve_list.append(c)
-		thicknesses.append(thickness)
-		points.append(new_point)
-		
-
-		if random.random() < split:
-			t1, t2 = split_thickness(thickness)
-			loop(steps - 1, new_point, t1)
-			loop(steps - 1, rg.Point3d(new_point), t2)
-		else:
-			loop(steps - 1, new_point, thickness)
+		loop(steps - 1, new_point, thickness)
 		
 loop(xsteps, start, 1.0)
