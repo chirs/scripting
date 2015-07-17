@@ -7,7 +7,6 @@ import scriptcontext
 
 def closest_point(curve, length):
 	"""Get the closest point on a curve at a given length"""
-	
 	return curve.ClosestPoint(curve.PointAtLength(length), 0.0)[1]
 
 
